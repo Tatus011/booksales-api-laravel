@@ -8,8 +8,7 @@ use App\Models\Author;
 class AuthorController extends Controller
 {
     public function index() {
-        $data = new author(); 
-        $authors = $data->getAuthors(); 
+        $authors = Author::all();
 
         return view('authors', ['authors' => $authors]);
     }

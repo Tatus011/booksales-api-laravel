@@ -9,10 +9,10 @@
 <body>
     <h1>Ini Adalah Halaman Daftar Author</h1>
 
-    @foreach ($authors as $item)
+    @foreach ($authors as $author)
         <ul>
-            <li>{{ $item['id'] }}</li>
-            <li>{{ $item['name'] }}</li>
+            <li>{{ $author['name'] }}</li>
+            <li>{{ $author['bio'] }}</li>
         </ul>
     @endforeach
 </body>

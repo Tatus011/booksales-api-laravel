@@ -8,8 +8,7 @@ use App\Models\Genre;
 class GenreController extends Controller
 {
     public function index() {
-        $data = new genre();
-        $genres = $data->getGenres(); 
+        $genres = Genre::all(); 
 
         return view('genres', ['genres' => $genres]);
     }
