@@ -7,10 +7,10 @@ use App\Models\Book;
 
 class BookController extends Controller
 {
-    public function index() {
-        $data = new book(); // Membuat objek
-        $books = $data->getBooks(); // Mengakses method getBooks
+    public function index() 
+    {
+        $books = Book::all(); 
 
-        return view('books', ['books' => $books]); // Mengirim data buku ke view
+        return response()->json($books);
     }
 }
