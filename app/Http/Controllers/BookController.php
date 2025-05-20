@@ -13,4 +13,23 @@ class BookController extends Controller
 
         return response()->json($books);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'cover_photo' => 'nullable|string',
+            'author_id' => 'required|exists:authors,id',
+        ]);
+
+        $book = Book::create($request->all());
+
+        return response()->json([
+            'message' => 'Book created successfully',
+            'data' => $book
+        ], 201);
+    }
 }

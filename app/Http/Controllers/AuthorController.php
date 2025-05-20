@@ -13,4 +13,19 @@ class AuthorController extends Controller
 
          return response()->json($authors);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'bio' => 'nullable|string',
+        ]);
+
+        $author = Author::create($request->all());
+
+        return response()->json([
+            'message' => 'Author berhasil dibuat',
+            'data' => $author
+        ], 201);
+    }
 }
