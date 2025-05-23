@@ -7,25 +7,56 @@ use App\Models\Author;
 
 class AuthorController extends Controller
 {
-    public function index() 
+    public function index()
     {
-        $authors = Author::all();
-
-         return response()->json($authors);
+        return response()->json(Author::all(), 200);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
             'bio' => 'nullable|string',
         ]);
 
-        $author = Author::create($request->all());
+        $authors = Author::create($validated);
+        return response()->json($authors, 201);
+    }
 
-        return response()->json([
-            'message' => 'Author berhasil dibuat',
-            'data' => $author
-        ], 201);
+    public function show($id)
+    {
+        $authors = Author::find($id);
+        if (!$authors) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        return response()->json($authors, 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $authors = Author::find($id);
+        if (!$authors) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'bio' => 'nullable|string',
+        ]);
+
+        $authors->update($validated);
+        return response()->json($authors, 200);
+    }
+
+    public function destroy($id)
+    {
+        $authors = Author::find($id);
+        if (!$authors) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        $authors->delete();
+        return response()->json(['message' => 'Author deleted'], 200);
     }
 }
