@@ -5,11 +5,54 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JTWAuth;
 
 
-Route::apiResource('books', BookController::class);
-Route::apiResource('genres', GenreController::class);
-Route::apiResource('authors', AuthorController::class);
+Route::apiResource('books', BookController::class)->only(['index', 'show']);
+Route::apiResource('genres', GenreController::class)->only(['index', 'show']);
+Route::apiResource('authors', AuthorController::class)->only(['index', 'show']);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::middleware(['role:admin'])->group(function () {
+        Route::apiResource('books', BookController::class)->only(['store', 'update', 'destroy']);
+        Route::apiResource('genres', GenreController::class)->only(['store', 'update', 'destroy']);
+        Route::apiResource('authors', AuthorController::class)->only(['store', 'update', 'destroy']);
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
