@@ -13,13 +13,9 @@ class Book extends Model
 
     protected $fillable = ['title', 'description', 'price', 'stock', 'cover_photo', 'author_id'];
 
-    // public function genre()
-    // {
-    //     return $this->belongsTo(Genre::class);
-    // }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 
-    // public function author()
-    // {
-    //     return $this->belongsTo(Author::class);
-    // }
 }
